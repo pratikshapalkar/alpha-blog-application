@@ -31,7 +31,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
 
-
+  ## Associations
+  has_many :articles, dependent: :destroy
+  
   ## Enums
   enum role: { admin: 0, user: 1 }
 
