@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   ## Devise authentication routes
   devise_for :users, controllers: {
     registrations: 'users/registrations',
@@ -6,6 +7,8 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
     confirmations: 'users/confirmations'
   }
+
+  root to: 'dashboard#index'
 
   ## API routes
   scope :module => 'api', defaults: { format: 'json' } do
@@ -16,4 +19,12 @@ Rails.application.routes.draw do
       }
     end
   end
+
+  namespace :api, defaults: { format: 'json' } do
+    namespace :v1, defaults: { format: 'json' } do
+      resources :articles
+    end
+  end
+
+  resources :articles, only: [:index]
 end
