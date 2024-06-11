@@ -25,11 +25,14 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
+  extend Devise::Models
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable
+        :recoverable, :rememberable, :validatable, :confirmable
+
+  include DeviseTokenAuth::Concerns::User
 
   ## Associations
   has_many :articles, dependent: :destroy
@@ -37,5 +40,11 @@ class User < ApplicationRecord
   ## Enums
   enum role: { admin: 0, user: 1 }
 
-  ## Callbacks
+  def is_admin?
+    role == "admin"
+  end
+  
+  def is_user?
+    role == "user"
+  end
 end
