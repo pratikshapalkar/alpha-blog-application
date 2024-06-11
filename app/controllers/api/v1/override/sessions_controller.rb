@@ -31,6 +31,11 @@ module Api
           end
         end
 
+        def destroy
+          
+          super
+        end
+
         private 
 
         def sign_in_params
